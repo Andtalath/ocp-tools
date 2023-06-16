@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Small script to change which cluster you are working towards
+
+PS3="Choose environment: "
+select context in $(oc config get-contexts -o name) ;do
+  oc config use-context ${context}
+  if oc status > /dev/null 2>&1; then
+    exit
+  else
+    oc login
+    exit 1
+  fi
+done
